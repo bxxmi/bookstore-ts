@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
-import AddBooks from "./components/AddBooks";
-import SignIn from "./components/SignIn";
-import DetailBook from "./components/DetailBook";
-import EditBook from "./components/EditBook";
-import NotFound from "./components/NotFound";
-import Error from "./components/Error";
+import Home from "./routes/Home";
+import AddBooks from "./routes/AddBooks";
+import SignIn from "./routes/SignIn";
+import DetailBook from "./routes/DetailBook";
+import EditBook from "./routes/EditBook";
+import NotFound from "./routes/NotFound";
+import Error from "./routes/Error";
 import { ErrorBoundary } from "react-error-boundary";
 
 function App() {
