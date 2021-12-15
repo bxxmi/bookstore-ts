@@ -4,10 +4,16 @@ import "antd/dist/antd.css";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import store from "./redux/store";
+import { Provider } from "react-redux";
+
+const create = store();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={create}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

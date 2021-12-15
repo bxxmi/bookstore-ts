@@ -1,4 +1,9 @@
-import { createActions, handleActions } from "redux-actions";
+import { call, put, takeEvery } from "@redux-saga/core/effects";
+import { push } from "connected-react-router";
+import { Action, createActions, handleActions } from "redux-actions";
+import TokenService from "../../services/TokenService";
+import UserService from "../../services/UserService";
+import { LoginReqType } from "../../types";
 
 // 로그인 인증 관리
 // 타입 지정
@@ -52,4 +57,27 @@ const reducer = handleActions<AuthState, string>(
 export default reducer;
 
 // saga
-export function* authSaga() {}
+export const { login, logout } = createActions("LOGIN", "LOGOUT", { prefix });
+
+function* loginSaga(action: Action<LoginReqType>) {
+  try {
+    yield put(pending());
+    const token: string = yield call(UserService.login, action.payload);
+
+    // 로컬 스토리지
+    TokenService.set(token);
+    yield put(success(token));
+
+    // push
+    yield put(push("/"));
+  } catch (error: any) {
+    yield put(fail(new Error(error?.response?.data?.error || "UNKNOWN ERROR")));
+  }
+}
+
+function* logoutSaga() {}
+
+export function* authSaga() {
+  yield takeEvery(`${prefix}/LOGIN`, loginSaga);
+  yield takeEvery(`${prefix}/LOGOUT`, logoutSaga);
+}
